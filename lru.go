@@ -1,0 +1,5 @@
+package lru
+
+func init() {
+	//
+}
