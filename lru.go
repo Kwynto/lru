@@ -1,22 +1,23 @@
 package lru
 
 import (
+	"encoding/json"
 	"time"
 )
 
 // DataTable
 
 type DataTable interface {
-	Add(key string, value interface{}) bool
+	Add(key string, value any) bool
 }
 
-type dataTable map[string]interface{}
+type dataTable map[string]any
 
 func NewDataTable(size int) DataTable {
 	return make(dataTable, size)
 }
 
-func (dt dataTable) Add(key string, value interface{}) bool {
+func (dt dataTable) Add(key string, value any) bool {
 	dt[key] = value
 	return true
 }
@@ -41,25 +42,33 @@ func (tq timeQueue) Add(key string, qtime time.Time) bool {
 // Cache
 
 type Cache interface {
-	WithCache(key string, value interface{}) bool
+	WithCache(key string, value any) bool
 }
 
 type cache struct {
-	data  DataTable
-	queue TimeQueue
+	data   DataTable
+	queue  TimeQueue
+	volume int
 }
 
 func New(size int) Cache {
 	return cache{
-		data:  NewDataTable(size),
-		queue: NewTimeQueue(size),
+		data:   NewDataTable(size),
+		queue:  NewTimeQueue(size),
+		volume: size,
 	}
 }
 
-func (c cache) WithCache(key string, value interface{}) bool {
+func (c cache) WithCache(key string, value any) bool {
 	return true
 }
 
-func init() {
-	//
+// Helper functions
+
+func MarshalKey(in any) (string, bool) {
+	out, err := json.Marshal(in)
+	if err != nil {
+		return "", false
+	}
+	return string(out), true
 }
