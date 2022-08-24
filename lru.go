@@ -2,65 +2,37 @@ package lru
 
 import (
 	"encoding/json"
+	"sync"
 	"time"
 )
 
-// DataTable
+// dataCache
 
-type DataTable interface {
-	Add(key string, value any) bool
-}
-
-type dataTable map[string]any
-
-func NewDataTable(size int) DataTable {
-	return make(dataTable, size)
-}
-
-func (dt dataTable) Add(key string, value any) bool {
-	dt[key] = value
-	return true
-}
-
-// TimeQueue
-
-type TimeQueue interface {
-	Add(key string, qtime time.Time) bool
-}
-
-type timeQueue map[string]time.Time
-
-func NewTimeQueue(size int) TimeQueue {
-	return make(timeQueue, size)
-}
-
-func (tq timeQueue) Add(key string, qtime time.Time) bool {
-	tq[key] = qtime
-	return true
+type dataCache struct {
+	result any
+	queue  time.Time
 }
 
 // Cache
 
 type Cache interface {
-	WithCache(key string, value any) bool
+	Process(in any) (any, error)
 }
 
 type cache struct {
-	data   DataTable
-	queue  TimeQueue
+	data   sync.Map
 	volume int
 }
 
 func New(size int) Cache {
 	return cache{
-		data:   NewDataTable(size),
-		queue:  NewTimeQueue(size),
+		data:   sync.Map{},
 		volume: size,
 	}
 }
 
-func (c cache) WithCache(key string, value any) bool {
-	return true
+func (c cache) Process(in any) (any, error) {
+	return nil, nil
 }
 
 // Helper functions
