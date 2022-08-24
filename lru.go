@@ -2,6 +2,7 @@ package lru
 
 import (
 	"encoding/json"
+	"errors"
 	"sync"
 	"time"
 )
@@ -16,7 +17,9 @@ type dataCache struct {
 // Cache
 
 type Cache interface {
-	Process(in any) (any, error)
+	Get(key any) (any, error)
+	Set(key any, value any) bool
+	СheckUp(key any) bool
 }
 
 type cache struct {
@@ -25,14 +28,43 @@ type cache struct {
 }
 
 func New(size int) Cache {
-	return cache{
+	return &cache{
 		data:   sync.Map{},
 		volume: size,
 	}
 }
 
-func (c cache) Process(in any) (any, error) {
-	return nil, nil
+func (c *cache) Get(key any) (any, error) {
+	keyStr, ok := MarshalKey(key)
+	if !ok {
+		return nil, errors.New("can't get result from cache")
+	}
+
+	value, ok := c.data.Load(keyStr)
+	if !ok {
+		return nil, errors.New("can't get result from cache")
+	}
+
+	return value, nil
+}
+
+func (c *cache) Set(key any, value any) bool {
+	keyStr, ok := MarshalKey(key)
+	if !ok {
+		return false
+	}
+	c.data.Store(keyStr, value)
+	return true
+}
+
+func (c *cache) СheckUp(key any) bool {
+	keyStr, ok := MarshalKey(key)
+	if !ok {
+		return false
+	}
+
+	_, ok = c.data.Load(keyStr)
+	return ok
 }
 
 // Helper functions
