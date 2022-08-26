@@ -111,7 +111,7 @@ func (c *cache) remove(key string) {
 
 // Clearing the cache of old items
 func (c *cache) cleanUp(count int8) {
-	if count < 3 {
+	if count < 2 {
 		minKey := c.extractMinValue()
 		c.remove(minKey)
 		c.cleanUp(count + 1)
