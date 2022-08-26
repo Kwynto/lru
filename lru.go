@@ -17,22 +17,25 @@ type dataCache struct {
 type Cache interface {
 	Load(key any) (any, error)
 	Store(key any, value any) bool
-	Balancing()
 }
 
 // Cache infrastructure.
 type cache struct {
 	data     map[string]dataCache
-	capacity int
 	latch    sync.Mutex
+	capacity int
+	border   int
+	cleaning bool
 }
 
 // Cache constructor.
 func New(size int) Cache {
 	return &cache{
 		data:     make(map[string]dataCache, 0),
-		capacity: size,
 		latch:    sync.Mutex{},
+		capacity: size,
+		border:   size / 100 * 98,
+		cleaning: false,
 	}
 }
 
@@ -63,12 +66,12 @@ func (c *cache) Load(key any) (any, error) {
 func (c *cache) Store(key any, value any) bool {
 	var valueStore dataCache
 
+	c.balancing()
+
 	keyStr, ok := marshalKey(key)
 	if !ok {
 		return false
 	}
-
-	c.сleanUp()
 
 	valueStore.queue = time.Now().Unix()
 	valueStore.result = value
@@ -78,11 +81,6 @@ func (c *cache) Store(key any, value any) bool {
 	c.latch.Unlock()
 
 	return true
-}
-
-// Cache balancing on overflow reducing it by 10%
-func (c *cache) Balancing() {
-	// TODO: Балансировка кеша при переполнении уменьшая его на 10%
 }
 
 // Helper functions and metods
@@ -112,11 +110,27 @@ func (c *cache) remove(key string) {
 }
 
 // Clearing the cache of old items
-func (c *cache) сleanUp() {
-	if len(c.data) >= c.capacity {
+func (c *cache) cleanUp(count int8) {
+	if count < 3 {
 		minKey := c.extractMinValue()
 		c.remove(minKey)
-		c.сleanUp()
+		c.cleanUp(count + 1)
+	}
+}
+
+// Cache balancing on overflow reducing it by 2%
+func (c *cache) balancing() {
+	lenData := len(c.data)
+
+	if !c.cleaning && lenData >= c.capacity {
+		c.cleaning = true
+		c.cleanUp(0)
+	} else if c.cleaning && lenData > c.border {
+		c.cleanUp(0)
+	}
+
+	if c.cleaning && lenData <= c.border {
+		c.cleaning = false
 	}
 }
 
