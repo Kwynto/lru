@@ -30,6 +30,10 @@ type cache struct {
 
 // Cache constructor.
 func New(size int) Cache {
+	if size < 100 {
+		size = 100
+	}
+
 	return &cache{
 		data:     make(map[string]dataCache, 0),
 		latch:    sync.Mutex{},
