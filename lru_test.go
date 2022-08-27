@@ -23,7 +23,12 @@ type t2 struct {
 var cacheForTesting = testPreparation()
 
 func testPreparation() Cache {
-	cacheV := New(1000)
+	cacheV := New(100)
+
+	for i := 150; i < 300; i++ {
+		cacheV.Store(i, i)
+	}
+
 	cacheV.Store("123", "123")
 	cacheV.Store(123, 123)
 	cacheV.Store(1.23, 1.23)

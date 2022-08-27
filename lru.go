@@ -45,12 +45,12 @@ func New(size int) Cache {
 
 // Get an entry from the cache.
 func (c *cache) Load(key any) (any, error) {
-	keyStr, ok := marshalKey(key)
-	if !ok {
+	keyStr, err := marshalKey(key)
+	if err != nil {
 		return nil, errors.New("can't get result from cache")
 	}
 
-	newTime := time.Now().Unix()
+	newTime := time.Now().UnixNano()
 
 	c.latch.Lock()
 	defer c.latch.Unlock()
@@ -72,12 +72,12 @@ func (c *cache) Store(key any, value any) bool {
 
 	c.balancing()
 
-	keyStr, ok := marshalKey(key)
-	if !ok {
+	keyStr, err := marshalKey(key)
+	if err != nil {
 		return false
 	}
 
-	valueStore.queue = time.Now().Unix()
+	valueStore.queue = time.Now().UnixNano()
 	valueStore.result = value
 
 	c.latch.Lock()
@@ -91,7 +91,7 @@ func (c *cache) Store(key any, value any) bool {
 
 // Retrieves the key of the oldest cache item
 func (c *cache) extractMinValue() string {
-	markerT := time.Now().Unix()
+	markerT := time.Now().UnixNano()
 	markerK := ""
 
 	// c.latch.Lock()
@@ -139,10 +139,10 @@ func (c *cache) balancing() {
 }
 
 // Serialize any type to JSON to use as a key.
-func marshalKey(in any) (string, bool) {
+func marshalKey(in any) (string, error) {
 	out, err := json.Marshal(in)
 	if err != nil {
-		return "", false
+		return "", err
 	}
-	return string(out), true
+	return string(out), nil
 }
