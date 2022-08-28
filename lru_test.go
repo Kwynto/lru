@@ -55,6 +55,10 @@ func testPreparation() Cache {
 	return cacheV
 }
 
+// --------------
+// Test functions
+// --------------
+
 func TestNew(t *testing.T) {
 	type args struct {
 		size int
@@ -268,5 +272,30 @@ func Test_cache_Load(t *testing.T) {
 				t.Errorf("cache.Load() = %v, want %v", got, tt.want)
 			}
 		})
+	}
+}
+
+// ----------------------
+// Functions benchmarking
+// ----------------------
+
+func Benchmark_New(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		_ = New(100) // calling the tested function
+	}
+}
+
+func Benchmark_Load(b *testing.B) {
+	var cacheB = testPreparation()
+	for i := 0; i < b.N; i++ {
+		_, _ = cacheB.Load(123) // calling the tested function
+	}
+}
+
+func Benchmark_Store(b *testing.B) {
+	var cacheB = testPreparation()
+	for i := 0; i < b.N; i++ {
+		_ = cacheB.Store("Bench", "Benchmark") // calling the tested function
+		// _ = cacheB.Store(i, i) // calling the tested function
 	}
 }
