@@ -1,5 +1,9 @@
 package lru
 
+// --------------------------------------------------------
+// Copyright (c) 2022 Constantine Zavezeon <kwynto@mail.ru>
+// --------------------------------------------------------
+
 import (
 	"reflect"
 	"sync"
