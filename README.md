@@ -14,6 +14,7 @@ A simple implementation of LRU for caching with old data preempted.
   - [What is LRU cache](#what-is-lru-cache)
   - [How to connect LRU](#how-to-connect-lru)
   - [How to use LRU](#how-to-use-lru)
+  - [Usage example](#usage-example)
   - [About the package  (documentation, testing and benchmarking)](#about-the-package)
   - [About the author](#about-the-author)
 
@@ -49,7 +50,36 @@ This function takes one `size` argument to specify the number of elements of any
 myAppCache := lru.New(1000) // Creating a cache for 1000 items.
 ```
 
+To store a value in the cache, use the `Store((key any, value any)` method. The key must be an input, such as serialized data or a regular structure. The value must be the result of the input.
+```go
+myAppCache.Store("input data", "output")
+```
+
+When you need a calculation, you can reuse the data via the `Load(key any)` method. The result of executing this function will be the value from the cache and an error message.
+```go
+value, err := myAppCache.Load("input data")
+```
+
+If the cache has the required value of the previous operations, then the error will be equal to `nil` and can be checked, but if there is no value, then you need to calculate and add it to the cache.
+```go
+if err != nil {
+  // There is no cache value, you need to perform calculations and put the result into the cache
+  key := "input data"
+  value = "output" // there should be a calculation of the correct result
+  myAppCache.Store(key, value)
+}
+```
+
 **[⬆ back to top](#lru)** - **[⬆ back to the chapter](#how-to-use-lru)**
+
+## Usage example
+
+Let's calculate a sufficiently large number of values of the Fibonacci number series, put the results in the cache and get some of them.
+```go
+  //TODO:
+```
+
+**[⬆ back to top](#lru)** - **[⬆ back to the chapter](#usage-example)**
 
 ## About the package
 
