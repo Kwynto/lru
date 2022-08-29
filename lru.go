@@ -20,7 +20,10 @@ type dataCache struct {
 
 // Contract for the use of the cache.
 type Cache interface {
+	// Get an entry from the cache.
 	Load(key any) (any, error)
+
+	// Write a new value to the cache or update an old value.
 	Store(key any, value any) bool
 }
 
