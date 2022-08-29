@@ -331,12 +331,9 @@ func Benchmark_Load_error(b *testing.B) {
 }
 
 func Benchmark_Store(b *testing.B) {
-	// var cacheB = testPreparation()
 	var cacheFibo = testPreparationSecond()
 	value := Fibo(150)
 	for i := 0; i < b.N; i++ {
-		// _ = cacheB.Store("Bench", "Benchmark") // calling the tested function
-		// _ = cacheB.Store(i, i) // calling the tested function
 		_ = cacheFibo.Store(150, value) // calling the tested function
 	}
 }
