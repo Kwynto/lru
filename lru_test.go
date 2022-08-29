@@ -10,6 +10,10 @@ import (
 	"testing"
 )
 
+// --------------------------------------
+// Helper functions, variables and types.
+// --------------------------------------
+
 type t1 struct {
 	a string
 	b int
@@ -52,6 +56,33 @@ func testPreparation() Cache {
 		},
 	)
 
+	return cacheV
+}
+
+func fiboInternal(n uint, a, b uint) uint {
+	// Internal function for use in Fibo(n)
+	// This function implements the final recursion.
+	if n == 1 {
+		return b
+	}
+	return fiboInternal(n-1, b, a+b)
+}
+
+// The Fibo() function is a fast implementation of the Fibonacci number via finite recursion.
+func Fibo(n uint) uint {
+	if n == 0 {
+		return 0
+	}
+	return fiboInternal(n, 0, 1)
+}
+
+func testPreparationSecond() Cache {
+	cacheV := New(100)
+
+	for i := 40; i < 141; i++ {
+		value := Fibo(uint(i))
+		cacheV.Store(i, value)
+	}
 	return cacheV
 }
 
@@ -286,16 +317,32 @@ func Benchmark_New(b *testing.B) {
 }
 
 func Benchmark_Load(b *testing.B) {
-	var cacheB = testPreparation()
+	var cacheB = testPreparationSecond()
 	for i := 0; i < b.N; i++ {
-		_, _ = cacheB.Load(123) // calling the tested function
+		_, _ = cacheB.Load(140) // calling the tested function
+	}
+}
+
+func Benchmark_Load_error(b *testing.B) {
+	var cacheB = testPreparationSecond()
+	for i := 0; i < b.N; i++ {
+		_, _ = cacheB.Load(150) // calling the tested function
 	}
 }
 
 func Benchmark_Store(b *testing.B) {
-	var cacheB = testPreparation()
+	// var cacheB = testPreparation()
+	var cacheFibo = testPreparationSecond()
+	value := Fibo(150)
 	for i := 0; i < b.N; i++ {
-		_ = cacheB.Store("Bench", "Benchmark") // calling the tested function
+		// _ = cacheB.Store("Bench", "Benchmark") // calling the tested function
 		// _ = cacheB.Store(i, i) // calling the tested function
+		_ = cacheFibo.Store(150, value) // calling the tested function
+	}
+}
+
+func Benchmark_Comparison_test(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		_ = Fibo(150)
 	}
 }
