@@ -76,7 +76,78 @@ if err != nil {
 
 Let's calculate a sufficiently large number of values of the Fibonacci number series, put the results in the cache and get some of them.
 ```go
-  //TODO:
+package main
+
+import (
+	"fmt"
+
+	"github.com/Kwynto/lru"
+)
+
+func fiboInternal(n uint, a, b uint) uint {
+	// Internal function for use in Fibo(n)
+	// This function implements the final recursion.
+	if n == 1 {
+		return b
+	}
+	return fiboInternal(n-1, b, a+b)
+}
+
+// The Fibo() function is a fast implementation of the Fibonacci number via finite recursion.
+func Fibo(n uint) uint {
+	if n == 0 {
+		return 0
+	}
+	return fiboInternal(n, 0, 1)
+}
+
+func main() {
+	cacheFibo := lru.New(100)
+
+	for i := 40; i < 141; i++ {
+		value := Fibo(uint(i))
+		cacheFibo.Store(i, value)
+	}
+
+	fmt.Println("Reading the correct value.")
+	value1, err := cacheFibo.Load(140)
+	fmt.Printf("Result: %v. Err: %v\n", value1, err)
+	fmt.Println("")
+
+	fmt.Println("Reading an invalid value.")
+	value2, err := cacheFibo.Load(142)
+	if err != nil {
+		fmt.Printf("Error handling: %v\n", err)
+	} else {
+		fmt.Printf("Result: %v.\n", value2)
+	}
+	fmt.Println("")
+
+	fmt.Println("Writing and reading.")
+	if cacheFibo.Store(142, Fibo(142)) {
+		value3, err := cacheFibo.Load(142)
+		fmt.Printf("Result: %v. Err: %v\n", value3, err)
+	} else {
+		fmt.Println("Write error.")
+	}
+	fmt.Println("")
+
+	fmt.Println("Reading a value from the cache and calculating if there is no value, then writing a new value.")
+	var result uint
+	input := 143
+	value4, err := cacheFibo.Load(input)
+	if err != nil {
+		result = Fibo(uint(input))
+		cacheFibo.Store(input, result)
+	} else {
+		result = value4.(uint)
+	}
+	fmt.Printf("Result: %v\n", result)
+	fmt.Println("")
+
+	fmt.Println("The end.")
+}
+
 ```
 
 **[⬆ back to top](#lru)** - **[⬆ back to the chapter](#usage-example)**
