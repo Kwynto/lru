@@ -21,7 +21,8 @@ A simple and fast implementation of LRU for caching with old data preemption and
 
 
 ## What is LRU cache
-LRU, or LRU cache (Least Recently Used) is an algorithm for storing a limited amount of data: information that has not been used for the longest time is forced out of storage. It is used in the organization of the cache.
+LRU, or LRU cache (Least Recently Used) is an algorithm for storing a limited amount of data: information that has not been used for the longest time is forced out of storage. It is used in the organization of the cache.  
+The `Kwynto/lru` package implements a fast and easy way to access the cache in constant time.
 
 **[⬆ back to top](#lru)** - **[⬆ back to the chapter](#what-is-lru-cache)**
 
