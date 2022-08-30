@@ -1,4 +1,4 @@
-// A simple implementation of LRU for caching with old data preempted.
+// A simple and fast implementation of LRU for caching with old data preemption and constant access time.
 package lru
 
 // --------------------------------------------------------

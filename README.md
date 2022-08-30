@@ -1,5 +1,5 @@
-# lru
-A simple implementation of LRU for caching with old data preempted.
+# LRU
+A simple and fast implementation of LRU for caching with old data preemption and constant access time.
 
 [![GoDoc](https://godoc.org/github.com/Kwynto/lru?status.svg)](https://godoc.org/github.com/Kwynto/lru)
 [![Go Report Card](https://goreportcard.com/badge/github.com/Kwynto/lru)](https://goreportcard.com/report/github.com/Kwynto/lru)

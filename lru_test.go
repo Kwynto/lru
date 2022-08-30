@@ -1,5 +1,7 @@
 package lru
 
+// A simple and fast implementation of LRU for caching with old data preemption and constant access time.
+
 // --------------------------------------------------------
 // Copyright (c) 2022 Constantine Zavezeon <kwynto@mail.ru>
 // --------------------------------------------------------
