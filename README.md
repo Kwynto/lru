@@ -1,4 +1,5 @@
 # LRU
+![Coverage](https://img.shields.io/badge/Coverage-92.3%25-brightgreen)
 A simple and fast implementation of LRU for caching with old data preemption and constant access time.
 
 [![GoDoc](https://godoc.org/github.com/Kwynto/lru?status.svg)](https://godoc.org/github.com/Kwynto/lru)
