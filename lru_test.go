@@ -293,6 +293,15 @@ func Test_cache_Load(t *testing.T) {
 			},
 			wantErr: false,
 		},
+		{
+			name: "Load #6 (invalid key)",
+			c:    cacheForTesting,
+			args: args{
+				key: "invalid key",
+			},
+			want:    nil,
+			wantErr: true,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

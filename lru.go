@@ -12,12 +12,6 @@ import (
 	"time"
 )
 
-// The internal structure of the cache store.
-type dataCache struct {
-	queue  int64
-	result any
-}
-
 // Contract for the use of the cache.
 type Cache interface {
 	// Get an entry from the cache.
@@ -25,6 +19,12 @@ type Cache interface {
 
 	// Write a new value to the cache or update an old value.
 	Store(key any, value any) bool
+}
+
+// The internal structure of the cache store.
+type dataCache struct {
+	queue  int64
+	result any
 }
 
 // Cache infrastructure.
@@ -53,11 +53,7 @@ func New(size int) Cache {
 
 // Get an entry from the cache.
 func (c *cache) Load(key any) (any, error) {
-	keyStr, err := marshalKey(key)
-	if err != nil {
-		return nil, errors.New("can't get result from cache")
-	}
-
+	keyStr := marshalKey(key)
 	newTime := time.Now().UnixNano()
 
 	c.latch.Lock()
@@ -67,7 +63,6 @@ func (c *cache) Load(key any) (any, error) {
 	if !ok {
 		return nil, errors.New("can't get result from cache")
 	}
-
 	value.queue = newTime
 	c.data[keyStr] = value
 
@@ -80,10 +75,7 @@ func (c *cache) Store(key any, value any) bool {
 
 	c.balancing()
 
-	keyStr, err := marshalKey(key)
-	if err != nil {
-		return false
-	}
+	keyStr := marshalKey(key)
 
 	valueStore.queue = time.Now().UnixNano()
 	valueStore.result = value
@@ -134,7 +126,7 @@ func (c *cache) cleanUp(count int8) {
 func (c *cache) balancing() {
 	lenData := len(c.data)
 
-	if !c.cleaning && lenData >= c.capacity {
+	if !c.cleaning && lenData > c.capacity {
 		c.cleaning = true
 		c.cleanUp(0)
 	} else if c.cleaning && lenData > c.border {
@@ -147,10 +139,7 @@ func (c *cache) balancing() {
 }
 
 // Serialize any type to JSON to use as a key.
-func marshalKey(in any) (string, error) {
-	out, err := json.Marshal(in)
-	if err != nil {
-		return "", err
-	}
-	return string(out), nil
+func marshalKey(in any) string {
+	out, _ := json.Marshal(in)
+	return string(out)
 }
