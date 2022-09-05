@@ -126,7 +126,6 @@ func main() {
 		cacheFibo.Store(i, value)
 	}
 
-	fmt.Println("The end.")
 	fmt.Println("Reading a value from the cache and calculating if there is no value, then writing a new value.")
 
 	var result uint
