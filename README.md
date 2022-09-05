@@ -7,6 +7,7 @@ A simple and fast implementation of LRU for caching with old data preemption and
 [![gocover.io](https://gocover.io/_badge/github.com/Kwynto/lru)](https://gocover.io/github.com/Kwynto/lru)
 ![Coverage](https://img.shields.io/badge/Coverage-100.0%25-brightgreen)
 
+**_This is the stable version._**
 
 ## Contents
 
@@ -72,6 +73,18 @@ if err != nil {
 }
 ```
 
+The basic pattern for using a cache is in sequence: attempting to read from the cache, if the read succeeds, return the result from the cache, but if the read fails, compute the result and place that result in the cache, then return the result.  
+You can implement this sequence in your code like this:  
+```go
+	value, err := cacheFibo.Load(input)
+	if err != nil {
+		result = yourCalculations(input)
+		cacheFibo.Store(input, result)
+	} else {
+		result = value
+	}
+```
+
 **[⬆ back to top](#lru)** - **[⬆ back to the chapter](#how-to-use-lru)**
 
 ## Usage example
@@ -104,46 +117,30 @@ func Fibo(n uint) uint {
 }
 
 func main() {
+	// Create a new cache.
 	cacheFibo := lru.New(100)
 
+	// Cache filling.
 	for i := 40; i < 141; i++ {
 		value := Fibo(uint(i))
 		cacheFibo.Store(i, value)
 	}
 
-	fmt.Println("Reading the correct value.")
-	value1, err := cacheFibo.Load(140)
-	fmt.Printf("Result: %v. Err: %v\n", value1, err)
-	fmt.Println("")
-
-	fmt.Println("Reading an invalid value.")
-	value2, err := cacheFibo.Load(142)
-	if err != nil {
-		fmt.Printf("Error handling: %v\n", err)
-	} else {
-		fmt.Printf("Result: %v.\n", value2)
-	}
-	fmt.Println("")
-
-	fmt.Println("Writing and reading.")
-	if cacheFibo.Store(142, Fibo(142)) {
-		value3, err := cacheFibo.Load(142)
-		fmt.Printf("Result: %v. Err: %v\n", value3, err)
-	} else {
-		fmt.Println("Write error.")
-	}
-	fmt.Println("")
-
+	fmt.Println("The end.")
 	fmt.Println("Reading a value from the cache and calculating if there is no value, then writing a new value.")
+
 	var result uint
-	input := 143
-	value4, err := cacheFibo.Load(input)
+	input := 140
+	// Demonstration of the main case - the beginning.
+	value, err := cacheFibo.Load(input)
 	if err != nil {
 		result = Fibo(uint(input))
 		cacheFibo.Store(input, result)
 	} else {
-		result = value4.(uint)
+		result = value.(uint)
 	}
+	// Demonstration of the main case - the end.
+
 	fmt.Printf("Result: %v\n", result)
 	fmt.Println("")
 
