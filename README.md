@@ -76,13 +76,13 @@ if err != nil {
 The basic pattern for using a cache is in sequence: attempting to read from the cache, if the read succeeds, return the result from the cache, but if the read fails, compute the result and place that result in the cache, then return the result.  
 You can implement this sequence in your code like this:  
 ```go
-	value, err := cacheFibo.Load(input)
-	if err != nil {
-		result = yourCalculations(input)
-		cacheFibo.Store(input, result)
-	} else {
-		result = value
-	}
+value, err := myAppCache.Load(input)
+if err != nil {
+	result = yourCalculations(input)
+	myAppCache.Store(input, result)
+} else {
+	result = value
+}
 ```
 
 **[⬆ back to top](#lru)** - **[⬆ back to the chapter](#how-to-use-lru)**
