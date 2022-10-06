@@ -53,7 +53,7 @@ This function takes one `size` argument to specify the number of elements of any
 myAppCache := lru.New(1000) // Creating a cache for 1000 items.
 ```
 
-To store a value in the cache, use the `Store((key any, value any)` method. The key must be an input, such as serialized data or a regular structure. The value must be the result of the input.
+To store a value in the cache, use the `Store(key any, value any)` method. The key must be an input, such as serialized data or a regular structure. The value must be the result of the input.
 ```go
 myAppCache.Store("input data", "output")
 ```
