@@ -1,27 +1,56 @@
-name: Go  # The name of the workflow that will appear on Github
+# This workflow will build a golang project
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-go
+
+name: Go
 
 on:
   push:
-    branches: [ main ]
+    branches: [ "main" ]
   pull_request:
-    branches: [ main ]
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
+    branches: [ "main" ]
 
 jobs:
 
   build:
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ubuntu-latest]
-        # os: [ubuntu-latest, windows-latest]
-        go: [1.18, 1.20]
+    runs-on: ubuntu-latest
     steps:
-    # - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
 
-    - name: Coveralls GitHub Action
-      uses: coverallsapp/github-action@v2
+    - name: Set up Go
+      uses: actions/setup-go@v4
+      with:
+        go-version: '1.20'
+
+    - name: Build
+      run: go build -v ./...
+
+    - name: Test
+      run: go test -v ./...
+
+# name: Go  # The name of the workflow that will appear on Github
+
+# on:
+#   push:
+#     branches: [ main ]
+#   pull_request:
+#     branches: [ main ]
+#   # Allows you to run this workflow manually from the Actions tab
+#   workflow_dispatch:
+
+# jobs:
+
+#   build:
+#     runs-on: ${{ matrix.os }}
+#     strategy:
+#       matrix:
+#         os: [ubuntu-latest]
+#         # os: [ubuntu-latest, windows-latest]
+#         go: [1.18, 1.20]
+#     steps:
+#     # - uses: actions/checkout@v2
+
+#     - name: Coveralls GitHub Action
+#       uses: coverallsapp/github-action@v2
 
     # - name: Set up Go
     #   uses: actions/setup-go@v2
