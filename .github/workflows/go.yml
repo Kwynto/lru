@@ -27,8 +27,13 @@ jobs:
     - name: Test
       run: go test -v ./...
 
-    - name: Coveralls GitHub Action
-      uses: coverallsapp/github-action@v2
+    - name: Upload coverage reports to Codecov
+      uses: codecov/codecov-action@v3
+      env:
+        CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+
+    # - name: Coveralls GitHub Action
+    #   uses: coverallsapp/github-action@v2
 
 # name: Go  # The name of the workflow that will appear on Github
 
