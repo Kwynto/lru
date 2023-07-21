@@ -4,21 +4,20 @@ A simple and fast implementation of LRU for caching with old data preemption and
 [![GoDoc](https://godoc.org/github.com/Kwynto/lru?status.svg)](https://godoc.org/github.com/Kwynto/lru)
 [![Go Report Card](https://goreportcard.com/badge/github.com/Kwynto/lru)](https://goreportcard.com/report/github.com/Kwynto/lru)
 [![GitHub](https://img.shields.io/github/license/Kwynto/lru)](https://github.com/Kwynto/lru/blob/master/LICENSE)
-[![gocover.io](https://gocover.io/_badge/github.com/Kwynto/lru)](https://gocover.io/github.com/Kwynto/lru)
-![Coverage](https://img.shields.io/badge/Coverage-100.0%25-brightgreen)
+
 
 **_This is the stable version._**
 
 ## Contents
 
 - [LRU](#lru)
-  - [Contents](#contents)
-  - [What is LRU cache](#what-is-lru-cache)
-  - [How to connect LRU](#how-to-connect-lru)
-  - [How to use LRU](#how-to-use-lru)
-  - [Usage example](#usage-example)
-  - [About the package  (documentation, testing and benchmarking)](#about-the-package)
-  - [About the author](#about-the-author)
+	- [Contents](#contents)
+	- [What is LRU cache](#what-is-lru-cache)
+	- [How to connect LRU](#how-to-connect-lru)
+	- [How to use LRU](#how-to-use-lru)
+	- [Usage example](#usage-example)
+	- [About the package](#about-the-package)
+	- [About the author](#about-the-author)
 
 
 ## What is LRU cache
