@@ -25,10 +25,7 @@ jobs:
       run: go build -v ./...
 
     - name: Test
-      run: go test -v ./...
-
-    - name: Codecov
-      uses: codecov/codecov-action@v3.1.4
+      run: go test -coverprofile="coverage.txt" -v ./...
     
     - name: Upload coverage reports to Codecov
       uses: codecov/codecov-action@v3
