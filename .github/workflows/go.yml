@@ -1,2 +1,21 @@
-- name: Coveralls GitHub Action
-  uses: coverallsapp/github-action@v2
+name: Go  # The name of the workflow that will appear on Github
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+
+  build:
+    runs-on:
+    strategy:
+      matrix:
+        os: 
+        go: 
+    steps:
+    - name: Coveralls GitHub Action
+      uses: coverallsapp/github-action@v2
