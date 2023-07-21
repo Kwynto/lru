@@ -16,9 +16,6 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
-    - name: Coveralls GitHub Action
-      uses: coverallsapp/github-action@v2
-
     - name: Set up Go
       uses: actions/setup-go@v4
       with:
@@ -29,6 +26,9 @@ jobs:
 
     - name: Test
       run: go test -v ./...
+
+    - name: Coveralls GitHub Action
+      uses: coverallsapp/github-action@v2
 
 # name: Go  # The name of the workflow that will appear on Github
 
