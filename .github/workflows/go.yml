@@ -9,10 +9,5 @@ on:
   workflow_dispatch:
 
 jobs:
-
-  build:
-    runs-on:
-    strategy:
-    steps:
-    - name: Coveralls GitHub Action
-      uses: coverallsapp/github-action@v2
+  - name: Coveralls GitHub Action
+    uses: coverallsapp/github-action@v2
