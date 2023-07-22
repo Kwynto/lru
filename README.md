@@ -4,7 +4,7 @@ A simple and fast implementation of LRU for caching with old data preemption and
 [![GoDoc](https://godoc.org/github.com/Kwynto/lru?status.svg)](https://godoc.org/github.com/Kwynto/lru)
 [![Go Report Card](https://goreportcard.com/badge/github.com/Kwynto/lru)](https://goreportcard.com/report/github.com/Kwynto/lru)
 [![GitHub](https://img.shields.io/github/license/Kwynto/lru)](https://github.com/Kwynto/lru/blob/master/LICENSE)
-
+[![codecov](https://codecov.io/gh/Kwynto/lru/branch/main/graph/badge.svg?token=E1XY0MNX5V)](https://codecov.io/gh/Kwynto/lru) 
 
 **_This is the stable version._**
 
