@@ -12,13 +12,13 @@ A simple and fast implementation of LRU for caching with old data preemption and
 ## Contents
 
 - [LRU](#lru)
-  - [Contents](#contents)
-  - [What is LRU cache](#what-is-lru-cache)
-  - [How to connect LRU](#how-to-connect-lru)
-  - [How to use LRU](#how-to-use-lru)
-  - [Usage example](#usage-example)
-  - [About the package  (documentation, testing and benchmarking)](#about-the-package)
-  - [About the author](#about-the-author)
+	- [Contents](#contents)
+	- [What is LRU cache](#what-is-lru-cache)
+	- [How to connect LRU](#how-to-connect-lru)
+	- [How to use LRU](#how-to-use-lru)
+	- [Usage example](#usage-example)
+	- [About the package](#about-the-package)
+	- [About the author](#about-the-author)
 
 
 ## What is LRU cache
@@ -173,6 +173,8 @@ And then in your web browser navigate to the uri:
 
 *The `godoc` utility may not be present in your Go build and you may need to install it  
 command `go get -v golang.org/x/tools/cmd/godoc`*
+
+* **For Debian Linux users (Ubuntu, Mint and others):** You may need to install the tools with the `sudo apt install golang-golang-x-tools` command* 
 
 You can also use Go's standard functionality to view documentation in the console via `go doc`.  
 For example:  
