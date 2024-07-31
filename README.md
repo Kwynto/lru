@@ -201,6 +201,10 @@ You can look at code performance tests:
 
 **[⬆ back to top](#lru)** - **[⬆ back to the chapter](#about-the-package)**
 
+## Support the author
+
+You can support open source projects and the author of this project. The details are [here](https://github.com/Kwynto/Kwynto/blob/main/SUPPORT.md).  
+
 ## About the author
 
 The author of the project is Constantine Zavezeon (Kwynto).  
